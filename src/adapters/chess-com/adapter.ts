@@ -39,7 +39,7 @@ export class ChessComAdapter {
       this.tryDetectActiveGame();
     }
 
-    // Poll for game object if not yet attached (handles late-loading boards)
+    // Poll for game object (handles late-loading boards and new games after end)
     this.pollInterval = setInterval(() => {
       if (!this.game) {
         this.tryAttachGameObject();
@@ -48,6 +48,14 @@ export class ChessComAdapter {
           this.tryDetectActiveGame();
         }
       } else if (!this.gameActive) {
+        // Re-fetch game object — chess.com may have replaced it for a new game
+        const oldGame = this.game;
+        this.tryAttachGameObject();
+        if (this.game !== oldGame) {
+          this.syntheticGameId = null;
+          this.moveCount = 0;
+          this.attachGameEvents();
+        }
         this.tryDetectActiveGame();
       }
     }, 1000);
@@ -158,9 +166,9 @@ export class ChessComAdapter {
     const isOver = this.game.isGameOver();
 
     // A game is active if there are moves and it's not over,
-    // OR if we're on /play/computer (bot game) with a game object present
+    // OR if we're on /play/ page with a non-finished game
     const onPlayPage = window.location.pathname.match(/\/play\//);
-    if (sans.length > 0 || onPlayPage) {
+    if ((sans.length > 0 && !isOver) || (onPlayPage && !isOver)) {
       this.gameActive = true;
       this.gameEndEmitted = false;
 
@@ -199,6 +207,7 @@ export class ChessComAdapter {
     this.gameActive = true;
     this.gameEndEmitted = false;
     this.moveCount = 0;
+    this.syntheticGameId = null;
 
     const meta = this.extractGameMeta();
     if (meta) {
