@@ -20,6 +20,12 @@
       "matches": ["https://www.chess.com/game/*", "https://www.chess.com/play/*"],
       "js": ["src/content/index.ts"],
       "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.chess.com/game/*", "https://www.chess.com/play/*"],
+      "js": ["src/content/injector.ts"],
+      "run_at": "document_idle",
+      "world": "MAIN"
     }
   ],
   "side_panel": {
