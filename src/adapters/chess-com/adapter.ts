@@ -13,6 +13,8 @@ export class ChessComAdapter {
   private lastClockState: ClockState = { whiteMs: 0, blackMs: 0 };
   private gameActive = false;
   private gameEndEmitted = false;
+  private pollInterval: ReturnType<typeof setInterval> | null = null;
+  private syntheticGameId: string | null = null;
 
   private onGameStartCallbacks: EventCallback<GameMeta>[] = [];
   private onMoveCallbacks: EventCallback<{ move: RawMove; clockState: ClockState }>[] = [];
@@ -34,14 +36,33 @@ export class ChessComAdapter {
 
     if (this.game) {
       this.attachGameEvents();
+      this.tryDetectActiveGame();
     }
+
+    // Poll for game object if not yet attached (handles late-loading boards)
+    this.pollInterval = setInterval(() => {
+      if (!this.game) {
+        this.tryAttachGameObject();
+        if (this.game) {
+          this.attachGameEvents();
+          this.tryDetectActiveGame();
+        }
+      } else if (!this.gameActive) {
+        this.tryDetectActiveGame();
+      }
+    }, 1000);
   }
 
   destroy(): void {
     this.detachGameEvents();
     this.domObserver.stop();
+    if (this.pollInterval) {
+      clearInterval(this.pollInterval);
+      this.pollInterval = null;
+    }
     this.game = null;
     this.gameActive = false;
+    this.syntheticGameId = null;
   }
 
   // ===== Event registration =====
@@ -69,8 +90,19 @@ export class ChessComAdapter {
   }
 
   getGameId(): string | null {
-    const match = window.location.pathname.match(/\/game\/live\/(\d+)/);
-    return match?.[1] ?? null;
+    // Try to extract from /game/live/<id> URL
+    const liveMatch = window.location.pathname.match(/\/game\/live\/(\d+)/);
+    if (liveMatch) return liveMatch[1];
+
+    // For bot games (/play/computer) and other non-live URLs, generate a synthetic ID
+    if (window.location.pathname.match(/\/play\//)) {
+      if (!this.syntheticGameId) {
+        this.syntheticGameId = `bot-${Date.now()}`;
+      }
+      return this.syntheticGameId;
+    }
+
+    return null;
   }
 
   getMoveHistory(): string[] {
@@ -114,6 +146,52 @@ export class ChessComAdapter {
     this.tryAttachGameObject();
     if (this.game) {
       this.attachGameEvents();
+      this.tryDetectActiveGame();
+    }
+  }
+
+  private tryDetectActiveGame(): void {
+    if (this.gameActive || !this.game) return;
+
+    // Check if a game is already in progress (handles late attachment)
+    const sans = this.game.getHistorySANs();
+    const isOver = this.game.isGameOver();
+
+    // A game is active if there are moves and it's not over,
+    // OR if we're on /play/computer (bot game) with a game object present
+    const onPlayPage = window.location.pathname.match(/\/play\//);
+    if (sans.length > 0 || onPlayPage) {
+      this.gameActive = true;
+      this.gameEndEmitted = false;
+
+      const meta = this.extractGameMeta();
+      if (meta) {
+        this.onGameStartCallbacks.forEach(cb => cb(meta));
+      }
+
+      // Emit any existing moves
+      if (sans.length > this.moveCount) {
+        for (let i = this.moveCount; i < sans.length; i++) {
+          const moveNumber = Math.ceil((i + 1) / 2);
+          const color: 'w' | 'b' = (i + 1) % 2 === 1 ? 'w' : 'b';
+          const clockState = this.scrapeClocks();
+          this.lastClockState = clockState;
+
+          const move: RawMove = {
+            san: sans[i],
+            color,
+            number: moveNumber,
+            wallClockAt: Date.now(),
+          };
+
+          this.onMoveCallbacks.forEach(cb => cb({ move, clockState }));
+        }
+        this.moveCount = sans.length;
+      }
+
+      if (isOver) {
+        this.handleGameOver();
+      }
     }
   }
 

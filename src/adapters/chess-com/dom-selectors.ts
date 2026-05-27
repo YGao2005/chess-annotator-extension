@@ -14,7 +14,7 @@ export const SELECTORS = {
   clockBlack: '.clock-component.clock-black',
 
   sidebar: '.board-layout-sidebar',
-  moveList: '.move-list-component, [class*="vertical-move-list"]',
+  moveList: 'wc-simple-move-list, .move-list-component, [class*="vertical-move-list"]',
 
   gameOverModal: '.game-over-modal-component, [class*="game-over"]',
   gameResult: '.game-over-header-component, [class*="game-result"]',
