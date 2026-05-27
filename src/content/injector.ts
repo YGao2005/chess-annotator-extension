@@ -208,11 +208,17 @@
       // Check if a new game started on the same object
       const sans = game.getHistorySANs?.() ?? [];
       const isOver = game.isGameOver?.();
-      if (sans.length === 0 && !isOver) {
-        // Fresh game with no moves yet — wait for first move
+      if (sans.length === 0 && !isOver && gameEndEmitted) {
+        // Previous game ended, new game with 0 moves (starting position)
+        moveCount = 0;
+        handleNewGame();
       } else if (sans.length > 0 && !isOver && sans.length < moveCount) {
         // Fewer moves than before = new game started
         moveCount = 0;
+        handleNewGame();
+        emitMoves();
+      } else if (sans.length > 0 && !isOver && moveCount === 0) {
+        // New game with moves we haven't seen
         handleNewGame();
         emitMoves();
       }
