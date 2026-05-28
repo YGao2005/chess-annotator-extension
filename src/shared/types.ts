@@ -10,6 +10,7 @@ export type MoveTag =
   | 'time_pressure'
   | 'opening_prep'
   | 'protocol_skip'
+  | 'possible_protocol_skip'
   | 'forced';
 
 export const MOVE_TAGS: MoveTag[] = [
@@ -22,8 +23,12 @@ export const MOVE_TAGS: MoveTag[] = [
   'time_pressure',
   'opening_prep',
   'protocol_skip',
+  'possible_protocol_skip',
   'forced',
 ];
+
+// Tags that are auto-applied by the time analytics system
+export const AUTO_TAGS: MoveTag[] = ['possible_protocol_skip', 'time_pressure'];
 
 // ===== Checklist =====
 

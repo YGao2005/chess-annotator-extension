@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useGameStore } from './stores/gameStore';
 import { MoveList } from './components/MoveList';
 import { AnnotationPanel } from './components/AnnotationPanel';
 import { PostGameReview } from './components/PostGameReview';
 import { ExportControls } from './components/ExportControls';
+import { TimeAnalytics } from './components/TimeAnalytics';
 import './styles.css';
+
+type PanelTab = 'annotate' | 'time';
 
 export const App: React.FC = () => {
   const {
@@ -16,6 +19,8 @@ export const App: React.FC = () => {
     setActiveMoveIndex,
     setReviewMode,
   } = useGameStore();
+
+  const [activeTab, setActiveTab] = useState<PanelTab>('annotate');
 
   useEffect(() => {
     connect();
@@ -119,20 +124,43 @@ export const App: React.FC = () => {
         </div>
       </div>
 
+      <div className="panel-tabs">
+        <button
+          className={`panel-tab ${activeTab === 'annotate' ? 'active' : ''}`}
+          onClick={() => setActiveTab('annotate')}
+          type="button"
+        >
+          Annotate
+        </button>
+        <button
+          className={`panel-tab ${activeTab === 'time' ? 'active' : ''}`}
+          onClick={() => setActiveTab('time')}
+          type="button"
+        >
+          Time
+        </button>
+      </div>
+
       <MoveList
         moves={game.moves}
         activeMoveIndex={activeMoveIndex}
         onMoveSelect={setActiveMoveIndex}
       />
 
-      <AnnotationPanel />
-
-      {isReviewMode && (
+      {activeTab === 'annotate' && (
         <>
-          <PostGameReview />
-          <ExportControls />
+          <AnnotationPanel />
+
+          {isReviewMode && (
+            <>
+              <PostGameReview />
+              <ExportControls />
+            </>
+          )}
         </>
       )}
+
+      {activeTab === 'time' && <TimeAnalytics />}
     </div>
   );
 };

@@ -61,6 +61,20 @@ export class GameStateManager {
       opponentClockRemainingMs,
     };
 
+    // Auto-tag: possible_protocol_skip for moves under 5s (skip first move)
+    if (moveIndex > 0 && moveRecord.timeSpentMs > 0 && moveRecord.timeSpentMs < 5000) {
+      if (!moveRecord.tags.includes('possible_protocol_skip')) {
+        moveRecord.tags.push('possible_protocol_skip');
+      }
+    }
+
+    // Auto-tag: time_pressure when clock < 30s remaining
+    if (clockRemainingMs > 0 && clockRemainingMs < 30000) {
+      if (!moveRecord.tags.includes('time_pressure')) {
+        moveRecord.tags.push('time_pressure');
+      }
+    }
+
     this.currentGame.moves.push(moveRecord);
     this.currentGame.updatedAt = new Date().toISOString();
 
