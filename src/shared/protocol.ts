@@ -1,4 +1,4 @@
-import type { Certainty, Checklist, GameRecord, GameResult, MoveTag, ResultReason } from './types';
+import type { AutoTagState, Certainty, Checklist, GameRecord, GameResult, MoveTag, ResultReason } from './types';
 
 // ===== Raw data from adapter =====
 
@@ -42,6 +42,7 @@ export interface MoveAnnotation {
   checklist: Checklist;
   noteDuring: string;
   notePost: string;
+  autoTags?: AutoTagState[];
   engineEval?: number;
   evalType?: 'cp' | 'mate';
   cpl?: number;
@@ -62,4 +63,6 @@ export type ExtensionMessage =
   | { type: 'GAME_IMPRESSION'; payload: { impressionPre?: string; impressionPost?: string; mainLesson?: string } }
   | { type: 'ACTIVE_MOVE_CHANGED'; payload: { moveIndex: number } }
   | { type: 'CONTENT_SCRIPT_READY'; payload: null }
-  | { type: 'SIDE_PANEL_READY'; payload: null };
+  | { type: 'SIDE_PANEL_READY'; payload: null }
+  | { type: 'REQUEST_ALL_GAMES'; payload: null }
+  | { type: 'ALL_GAMES_SYNC'; payload: GameRecord[] };
