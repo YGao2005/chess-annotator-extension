@@ -24,7 +24,7 @@ export const CertaintyCalibration: React.FC<CertaintyCalibrationProps> = ({ game
     for (const game of games) {
       for (const move of game.moves) {
         const c = move.certainty as Certainty;
-        if (c === null || c === undefined) continue;
+        if (!c || c < 1 || c > 5) continue;
 
         data[c].total++;
 
