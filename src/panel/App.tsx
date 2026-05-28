@@ -5,9 +5,10 @@ import { AnnotationPanel } from './components/AnnotationPanel';
 import { PostGameReview } from './components/PostGameReview';
 import { ExportControls } from './components/ExportControls';
 import { TimeAnalytics } from './components/TimeAnalytics';
+import { PatternDashboard } from './components/PatternDashboard';
 import './styles.css';
 
-type PanelTab = 'annotate' | 'time';
+type PanelTab = 'annotate' | 'time' | 'patterns';
 
 export const App: React.FC = () => {
   const {
@@ -97,7 +98,15 @@ export const App: React.FC = () => {
               <li><kbd>←/→</kbd> Navigate moves</li>
             </ul>
           </div>
+          <button
+            className="panel-tab patterns-btn"
+            onClick={() => setActiveTab('patterns')}
+            type="button"
+          >
+            View Pattern Dashboard
+          </button>
         </div>
+        {activeTab === 'patterns' && <PatternDashboard />}
       </div>
     );
   }
@@ -139,6 +148,13 @@ export const App: React.FC = () => {
         >
           Time
         </button>
+        <button
+          className={`panel-tab ${activeTab === 'patterns' ? 'active' : ''}`}
+          onClick={() => setActiveTab('patterns')}
+          type="button"
+        >
+          Patterns
+        </button>
       </div>
 
       <MoveList
@@ -161,6 +177,8 @@ export const App: React.FC = () => {
       )}
 
       {activeTab === 'time' && <TimeAnalytics />}
+
+      {activeTab === 'patterns' && <PatternDashboard />}
     </div>
   );
 };
