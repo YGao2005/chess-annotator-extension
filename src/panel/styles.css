@@ -982,6 +982,483 @@ kbd {
   color: #2980b9;
 }
 
+/* ===== Opening Tracker ===== */
+
+.opening-tracker {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.opening-tracker.empty {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+}
+
+.opening-hint {
+  font-size: 11px;
+  color: #555;
+  margin-top: 4px;
+}
+
+/* Opening Stats Card */
+
+.opening-stats-card {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.opening-stats-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.opening-stats-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+}
+
+.opening-stats-count {
+  font-size: 10px;
+  color: #666;
+}
+
+.opening-filter-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.opening-color-filter,
+.opening-sort {
+  display: flex;
+  gap: 2px;
+}
+
+.filter-btn {
+  padding: 3px 8px;
+  border-radius: 10px;
+  font-size: 10px;
+  font-weight: 600;
+  color: #888;
+  background: #0f3460;
+  transition: all 0.15s;
+}
+
+.filter-btn:hover {
+  color: #ccc;
+}
+
+.filter-btn.active {
+  background: #3498db;
+  color: white;
+}
+
+.opening-empty {
+  font-size: 11px;
+  color: #666;
+  text-align: center;
+  padding: 8px;
+}
+
+.opening-table {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.opening-row {
+  background: #0f3460;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.opening-row-top {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 4px;
+}
+
+.opening-name {
+  font-size: 12px;
+  font-weight: 600;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.opening-eco {
+  font-size: 10px;
+  color: #888;
+  background: #1a1a2e;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.opening-games {
+  font-size: 10px;
+  color: #888;
+}
+
+.opening-bar-track {
+  display: flex;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
+  background: #1a1a2e;
+  margin-bottom: 4px;
+}
+
+.opening-bar-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.opening-bar-fill.win { background: #27ae60; }
+.opening-bar-fill.draw { background: #95a5a6; }
+.opening-bar-fill.loss { background: #e74c3c; }
+
+.opening-row-bottom {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 10px;
+}
+
+.wld-label {
+  font-weight: 600;
+}
+
+.win-label { color: #27ae60; }
+.draw-label { color: #95a5a6; }
+.loss-label { color: #e74c3c; }
+
+.opening-winrate {
+  margin-left: auto;
+  font-weight: 700;
+  font-size: 11px;
+  color: #e0e0e0;
+}
+
+/* Ponziani Tracker Card */
+
+.ponziani-card {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.ponziani-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.ponziani-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+}
+
+.ponziani-count {
+  font-size: 10px;
+  color: #666;
+}
+
+.ponziani-empty {
+  font-size: 11px;
+  color: #666;
+  padding: 8px;
+}
+
+.ponziani-overview {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  background: #0f3460;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+
+.ponziani-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.ponziani-stat-value {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.ponziani-stat-label {
+  font-size: 9px;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.ponziani-variations {
+  margin-bottom: 8px;
+}
+
+.ponziani-var-header {
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 6px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #0f3460;
+}
+
+.ponziani-var-row {
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(15, 52, 96, 0.5);
+}
+
+.ponziani-var-row:last-child {
+  border-bottom: none;
+}
+
+.ponziani-var-name {
+  font-size: 11px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.ponziani-var-stats {
+  display: flex;
+  gap: 8px;
+  font-size: 10px;
+}
+
+.ponziani-var-winrate {
+  margin-left: auto;
+  font-weight: 600;
+  color: #e0e0e0;
+}
+
+.ponziani-var-deviations {
+  display: flex;
+  gap: 6px;
+  margin-top: 3px;
+}
+
+.deviation-badge {
+  font-size: 9px;
+  padding: 1px 6px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+
+.deviation-badge.player {
+  background: rgba(231, 76, 60, 0.15);
+  color: #e74c3c;
+}
+
+.deviation-badge.opponent {
+  background: rgba(52, 152, 219, 0.15);
+  color: #3498db;
+}
+
+.ponziani-games-list {
+  margin-top: 4px;
+}
+
+.ponziani-game-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  font-size: 11px;
+  border-bottom: 1px solid rgba(15, 52, 96, 0.5);
+  flex-wrap: wrap;
+}
+
+.ponziani-game-row:last-child {
+  border-bottom: none;
+}
+
+.ponziani-result {
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.ponziani-result.win { background: rgba(39, 174, 96, 0.2); color: #27ae60; }
+.ponziani-result.draw { background: rgba(149, 165, 166, 0.2); color: #95a5a6; }
+.ponziani-result.loss { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+
+.ponziani-game-opp {
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.ponziani-game-var {
+  color: #888;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+}
+
+.ponziani-game-date {
+  color: #666;
+  font-size: 10px;
+  flex-shrink: 0;
+}
+
+/* Prep Deviation Card */
+
+.prep-deviation-card {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.prep-deviation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.prep-deviation-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+}
+
+.prep-deviation-count {
+  font-size: 10px;
+  color: #666;
+}
+
+.prep-deviation-perfect {
+  font-size: 11px;
+  color: #27ae60;
+  padding: 8px;
+}
+
+.prep-deviation-summary {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  background: #0f3460;
+  border-radius: 6px;
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.prep-deviation-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.prep-stat-value {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.prep-stat-value.deviation-player { color: #e74c3c; }
+.prep-stat-value.deviation-opponent { color: #3498db; }
+
+.prep-stat-label {
+  font-size: 9px;
+  color: #888;
+  text-transform: uppercase;
+}
+
+.prep-deviation-section {
+  margin-bottom: 8px;
+}
+
+.prep-section-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 4px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #0f3460;
+}
+
+.deviation-row {
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(15, 52, 96, 0.5);
+}
+
+.deviation-row:last-child {
+  border-bottom: none;
+}
+
+.deviation-row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.deviation-move {
+  font-size: 11px;
+}
+
+.deviation-move strong {
+  color: #f1c40f;
+}
+
+.deviation-result {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.deviation-result.win { background: rgba(39, 174, 96, 0.2); color: #27ae60; }
+.deviation-result.draw { background: rgba(149, 165, 166, 0.2); color: #95a5a6; }
+.deviation-result.loss { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+
+.deviation-row-bottom {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: #888;
+  margin-bottom: 2px;
+}
+
+.deviation-line {
+  color: #aaa;
+}
+
+.deviation-date {
+  color: #666;
+}
+
+.deviation-expected {
+  font-size: 10px;
+  color: #f1c40f;
+  opacity: 0.7;
+  padding: 2px 0;
+}
+
 /* ===== Scrollbar ===== */
 
 ::-webkit-scrollbar {

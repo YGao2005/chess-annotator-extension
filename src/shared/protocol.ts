@@ -62,4 +62,6 @@ export type ExtensionMessage =
   | { type: 'GAME_IMPRESSION'; payload: { impressionPre?: string; impressionPost?: string; mainLesson?: string } }
   | { type: 'ACTIVE_MOVE_CHANGED'; payload: { moveIndex: number } }
   | { type: 'CONTENT_SCRIPT_READY'; payload: null }
-  | { type: 'SIDE_PANEL_READY'; payload: null };
+  | { type: 'SIDE_PANEL_READY'; payload: null }
+  | { type: 'REQUEST_ALL_GAMES'; payload: null }
+  | { type: 'ALL_GAMES_SYNC'; payload: GameRecord[] };

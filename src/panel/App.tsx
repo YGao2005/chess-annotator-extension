@@ -5,9 +5,10 @@ import { AnnotationPanel } from './components/AnnotationPanel';
 import { PostGameReview } from './components/PostGameReview';
 import { ExportControls } from './components/ExportControls';
 import { TimeAnalytics } from './components/TimeAnalytics';
+import { OpeningTracker } from './components/OpeningTracker';
 import './styles.css';
 
-type PanelTab = 'annotate' | 'time';
+type PanelTab = 'annotate' | 'time' | 'openings';
 
 export const App: React.FC = () => {
   const {
@@ -139,6 +140,13 @@ export const App: React.FC = () => {
         >
           Time
         </button>
+        <button
+          className={`panel-tab ${activeTab === 'openings' ? 'active' : ''}`}
+          onClick={() => setActiveTab('openings')}
+          type="button"
+        >
+          Openings
+        </button>
       </div>
 
       <MoveList
@@ -161,6 +169,8 @@ export const App: React.FC = () => {
       )}
 
       {activeTab === 'time' && <TimeAnalytics />}
+
+      {activeTab === 'openings' && <OpeningTracker />}
     </div>
   );
 };
