@@ -1,0 +1,48 @@
+{
+  "manifest_version": 3,
+  "name": "Chess Annotation",
+  "version": "0.1.0",
+  "description": "Capture rich per-move annotations, timing, and thought process during live chess.com games.",
+  "permissions": [
+    "sidePanel",
+    "storage",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://www.chess.com/*"
+  ],
+  "background": {
+    "service_worker": "src/background/service-worker.ts",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://www.chess.com/game/*", "https://www.chess.com/play/*"],
+      "js": ["src/content/index.ts"],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://www.chess.com/game/*", "https://www.chess.com/play/*"],
+      "js": ["src/content/injector.ts"],
+      "run_at": "document_idle",
+      "world": "MAIN"
+    }
+  ],
+  "side_panel": {
+    "default_path": "src/panel/index.html"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": ["src/content/injector.ts"],
+      "matches": ["https://www.chess.com/*"]
+    }
+  ],
+  "icons": {
+    "16": "public/icon16.png",
+    "48": "public/icon48.png",
+    "128": "public/icon128.png"
+  },
+  "action": {
+    "default_title": "Chess Annotation"
+  }
+}

@@ -1,0 +1,577 @@
+/* ===== Reset & Base ===== */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+  color: #e0e0e0;
+  background: #1a1a2e;
+  width: 100%;
+  min-width: 280px;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+}
+
+textarea, input {
+  font: inherit;
+  color: inherit;
+}
+
+/* ===== Panel Container ===== */
+
+.panel-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 8px;
+  gap: 8px;
+}
+
+.panel-status,
+.panel-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 20px;
+  color: #888;
+}
+
+.panel-empty h2 {
+  font-size: 20px;
+  margin-bottom: 8px;
+  color: #e0e0e0;
+}
+
+.shortcuts-help {
+  margin-top: 20px;
+  text-align: left;
+  background: #16213e;
+  padding: 12px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+.shortcuts-help h4 {
+  margin-bottom: 8px;
+  color: #aaa;
+}
+
+.shortcuts-help ul {
+  list-style: none;
+}
+
+.shortcuts-help li {
+  margin-bottom: 4px;
+}
+
+kbd {
+  background: #0f3460;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: monospace;
+  border: 1px solid #1a1a4e;
+}
+
+/* ===== Panel Header ===== */
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px;
+  background: #16213e;
+  border-radius: 8px;
+}
+
+.game-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.opponent-name {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.game-result {
+  font-size: 11px;
+  color: #888;
+}
+
+.mode-toggle {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.mode-toggle.live {
+  background: #27ae60;
+  color: white;
+}
+
+.mode-toggle.review {
+  background: #3498db;
+  color: white;
+}
+
+/* ===== Move List ===== */
+
+.move-list {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 8px;
+  max-height: 150px;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.move-list-empty {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  background: #16213e;
+  border-radius: 8px;
+}
+
+.move-row {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  width: 100%;
+}
+
+.move-number {
+  width: 28px;
+  text-align: right;
+  font-size: 11px;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.move-btn {
+  flex: 1;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  transition: background 0.15s;
+  position: relative;
+}
+
+.move-btn:hover {
+  background: #0f3460;
+}
+
+.move-btn.active {
+  background: #0f3460;
+  outline: 1px solid #3498db;
+}
+
+.move-btn.tag-blunder { color: #e74c3c; }
+.move-btn.tag-mistake { color: #e67e22; }
+.move-btn.tag-inaccuracy { color: #f1c40f; }
+.move-btn.tag-good { color: #2ecc71; }
+.move-btn.tag-excellent { color: #27ae60; }
+
+.move-indicator {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #3498db;
+}
+
+.move-placeholder {
+  flex: 1;
+}
+
+/* ===== Annotation Panel ===== */
+
+.annotation-panel {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.annotation-panel.empty {
+  text-align: center;
+  color: #666;
+  padding: 20px;
+}
+
+.annotation-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #0f3460;
+}
+
+.move-info {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.time-info {
+  font-size: 11px;
+  color: #888;
+}
+
+.annotation-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toggle-btn {
+  font-size: 11px;
+  color: #888;
+  text-align: left;
+  padding: 2px 0;
+}
+
+/* ===== Tag Selector ===== */
+
+.tag-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tag-chip {
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  border: 1px solid var(--tag-color, #666);
+  color: var(--tag-color, #666);
+  transition: all 0.15s;
+}
+
+.tag-chip:hover {
+  background: color-mix(in srgb, var(--tag-color, #666) 20%, transparent);
+}
+
+.tag-chip.active {
+  background: var(--tag-color, #666);
+  color: white;
+}
+
+.tag-chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== Certainty Rating ===== */
+
+.certainty-rating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.certainty-label {
+  font-size: 11px;
+  color: #888;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star {
+  font-size: 18px;
+  color: #444;
+  transition: color 0.15s;
+  padding: 0 1px;
+}
+
+.star.filled {
+  color: #f1c40f;
+}
+
+.star:hover {
+  color: #f1c40f;
+}
+
+/* ===== Checklist ===== */
+
+.checklist {
+  background: #0f3460;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.checklist-header {
+  font-size: 11px;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.checklist-item input[type="checkbox"] {
+  accent-color: #27ae60;
+}
+
+.checklist-collapsed {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.checklist-summary {
+  font-size: 11px;
+  color: #888;
+}
+
+.checklist-dots {
+  display: flex;
+  gap: 3px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #333;
+}
+
+.dot.checked {
+  background: #27ae60;
+}
+
+/* ===== Note Input ===== */
+
+.note-label {
+  font-size: 11px;
+  color: #888;
+  font-weight: 600;
+}
+
+.note-input {
+  width: 100%;
+  padding: 8px;
+  background: #0f3460;
+  border: 1px solid #1a1a4e;
+  border-radius: 6px;
+  resize: vertical;
+  min-height: 60px;
+  font-size: 12px;
+}
+
+.note-input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.note-input.post-note {
+  border-color: #2ecc71;
+}
+
+/* ===== Engine Inputs ===== */
+
+.engine-section {
+  background: #0f3460;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.engine-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 4px;
+}
+
+.engine-input {
+  padding: 4px 8px;
+  background: #16213e;
+  border: 1px solid #1a1a4e;
+  border-radius: 4px;
+  font-size: 11px;
+}
+
+.engine-input:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+/* ===== Post-Game Review ===== */
+
+.post-game-review {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.post-game-review h3 {
+  font-size: 14px;
+  color: #3498db;
+}
+
+.review-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.review-section label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.review-hint {
+  font-size: 11px;
+  color: #666;
+  font-style: italic;
+}
+
+.review-section textarea {
+  width: 100%;
+  padding: 8px;
+  background: #0f3460;
+  border: 1px solid #1a1a4e;
+  border-radius: 6px;
+  resize: vertical;
+  font-size: 12px;
+}
+
+.review-section textarea:focus {
+  outline: none;
+  border-color: #3498db;
+}
+
+.review-stats {
+  background: #0f3460;
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.review-stats h4 {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.stat-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.stat-label {
+  color: #888;
+}
+
+.stat-value {
+  font-weight: 600;
+}
+
+/* ===== Export Controls ===== */
+
+.export-controls {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.export-controls h4 {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.export-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.export-buttons button {
+  padding: 6px 10px;
+  background: #0f3460;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.export-buttons button:hover {
+  background: #1a4b8c;
+}
+
+.export-buttons button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.export-status {
+  margin-top: 6px;
+  font-size: 11px;
+  color: #27ae60;
+}
+
+/* ===== Scrollbar ===== */
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #444;
+}
