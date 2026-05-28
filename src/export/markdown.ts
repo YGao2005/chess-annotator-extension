@@ -42,6 +42,26 @@ export function gameToMarkdown(game: GameRecord): string {
     lines.push('');
   }
 
+  // Time Analytics
+  const myMoves = game.moves.filter(m => m.color === game.myColor);
+  if (myMoves.length > 0) {
+    const fastMoves = myMoves.filter(m => m.timeSpentMs > 0 && m.timeSpentMs < 5000);
+    const autoSkipped = game.moves.filter(m => m.tags.includes('possible_protocol_skip'));
+    const timePressured = game.moves.filter(m => m.color === game.myColor && m.tags.includes('time_pressure'));
+    
+    if (fastMoves.length > 0 || autoSkipped.length > 0 || timePressured.length > 0) {
+      lines.push('## Time Analytics');
+      lines.push(`- **Moves under 5s:** ${fastMoves.length}/${myMoves.length}`);
+      if (autoSkipped.length > 0) {
+        lines.push(`- **Auto-flagged protocol skips:** ${autoSkipped.length} (moves: ${autoSkipped.map(m => m.number).join(', ')})`);
+      }
+      if (timePressured.length > 0) {
+        lines.push(`- **Time pressure moves (<30s):** ${timePressured.length} (moves: ${timePressured.map(m => m.number).join(', ')})`);
+      }
+      lines.push('');
+    }
+  }
+
   // Pre-engine impression
   if (game.impressionPre) {
     lines.push('## Pre-Engine Impression');

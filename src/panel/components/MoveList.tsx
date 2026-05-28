@@ -75,5 +75,6 @@ function getMoveClass(move: MoveRecord): string {
   if (move.tags.includes('inaccuracy')) return 'tag-inaccuracy';
   if (move.tags.includes('excellent')) return 'tag-excellent';
   if (move.tags.includes('good')) return 'tag-good';
+  if (move.tags.includes('possible_protocol_skip')) return 'tag-auto-skip';
   return '';
 }

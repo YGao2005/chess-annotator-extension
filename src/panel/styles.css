@@ -195,6 +195,7 @@ kbd {
 .move-btn.tag-inaccuracy { color: #f1c40f; }
 .move-btn.tag-good { color: #2ecc71; }
 .move-btn.tag-excellent { color: #27ae60; }
+.move-btn.tag-auto-skip { color: #e67e22; opacity: 0.85; }
 
 .move-indicator {
   position: absolute;
@@ -288,6 +289,13 @@ kbd {
 .tag-chip:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+}
+
+.tag-chip.auto-tag {
+  opacity: 0.8;
+  cursor: default;
+  border-style: dashed;
+  font-size: 10px;
 }
 
 /* ===== Certainty Rating ===== */
@@ -555,6 +563,423 @@ kbd {
   margin-top: 6px;
   font-size: 11px;
   color: #27ae60;
+}
+
+/* ===== Panel Tabs ===== */
+
+.panel-tabs {
+  display: flex;
+  gap: 2px;
+  background: #16213e;
+  border-radius: 8px;
+  padding: 3px;
+}
+
+.panel-tab {
+  flex: 1;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+  color: #888;
+  transition: all 0.2s;
+}
+
+.panel-tab:hover {
+  color: #ccc;
+  background: #0f3460;
+}
+
+.panel-tab.active {
+  background: #0f3460;
+  color: #e0e0e0;
+}
+
+/* ===== Time Analytics ===== */
+
+.time-analytics {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.time-analytics.empty {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  color: #666;
+}
+
+/* ===== Time Distribution Chart ===== */
+
+.time-chart {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 10px;
+  position: relative;
+}
+
+.time-chart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.time-chart-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+}
+
+.time-chart-legend {
+  display: flex;
+  gap: 8px;
+}
+
+.legend-item {
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.legend-mine {
+  background: rgba(52, 152, 219, 0.3);
+  color: #3498db;
+}
+
+.legend-opponent {
+  background: rgba(149, 165, 166, 0.3);
+  color: #95a5a6;
+}
+
+.time-chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 1px;
+  height: 120px;
+  position: relative;
+}
+
+.time-bar {
+  flex: 1;
+  min-width: 3px;
+  max-width: 20px;
+  border-radius: 2px 2px 0 0;
+  transition: all 0.15s;
+  position: relative;
+  cursor: pointer;
+}
+
+.time-bar.mine {
+  background: #3498db;
+}
+
+.time-bar.opponent {
+  background: #555;
+}
+
+.time-bar:hover {
+  opacity: 0.8;
+  transform: scaleY(1.02);
+  transform-origin: bottom;
+}
+
+.time-bar.active {
+  outline: 2px solid #f1c40f;
+  outline-offset: -1px;
+  z-index: 1;
+}
+
+.time-bar.fast-move {
+  background: #e67e22;
+}
+
+.time-bar.flagged {
+  background: #e74c3c;
+}
+
+.time-bar.opponent.active {
+  outline-color: #f1c40f;
+}
+
+.bar-tooltip {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1a1a2e;
+  color: #e0e0e0;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-size: 9px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.time-chart-threshold {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 10px;
+  height: 120px;
+  pointer-events: none;
+}
+
+.threshold-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-top: 1px dashed rgba(231, 76, 60, 0.5);
+}
+
+.threshold-label {
+  position: absolute;
+  right: 0;
+  top: -12px;
+  font-size: 9px;
+  color: #e74c3c;
+  opacity: 0.7;
+}
+
+.time-chart-empty {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  background: #16213e;
+  border-radius: 8px;
+}
+
+/* ===== Phase Breakdown ===== */
+
+.phase-breakdown {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.phase-breakdown-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.phase-bars-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.phase-row {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.phase-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.phase-name {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.phase-range {
+  font-size: 10px;
+  color: #666;
+}
+
+.phase-bar-track {
+  height: 8px;
+  background: #0f3460;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.phase-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.phase-bar-fill.phase-opening {
+  background: #2ecc71;
+}
+
+.phase-bar-fill.phase-middlegame {
+  background: #3498db;
+}
+
+.phase-bar-fill.phase-endgame {
+  background: #9b59b6;
+}
+
+.phase-stats {
+  display: flex;
+  gap: 8px;
+  font-size: 10px;
+  color: #888;
+}
+
+.phase-avg {
+  color: #aaa;
+}
+
+.phase-total {
+  color: #666;
+}
+
+.phase-fast {
+  color: #e67e22;
+}
+
+/* ===== Rush Threshold Marker ===== */
+
+.rush-marker {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.rush-marker-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.rush-no-threshold {
+  font-size: 12px;
+  color: #27ae60;
+  padding: 4px 0;
+}
+
+.rush-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rush-trigger {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.rush-move-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e74c3c;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.rush-move-link:hover {
+  color: #c0392b;
+}
+
+.rush-clock {
+  font-size: 11px;
+  color: #888;
+}
+
+.rush-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.rush-stat {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+}
+
+.rush-stat-label {
+  color: #888;
+}
+
+.rush-stat-value {
+  font-weight: 600;
+}
+
+.rush-stat-value.rate-worse {
+  color: #e74c3c;
+}
+
+.rush-stat-value.rate-better {
+  color: #27ae60;
+}
+
+.rush-stat-value.rate-same {
+  color: #f1c40f;
+}
+
+.rush-warning {
+  font-size: 11px;
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
+  padding: 6px 8px;
+  border-radius: 4px;
+  border-left: 3px solid #e74c3c;
+}
+
+/* ===== Time Summary ===== */
+
+.time-summary {
+  background: #16213e;
+  border-radius: 8px;
+  padding: 10px;
+}
+
+.time-summary-header {
+  font-size: 12px;
+  font-weight: 600;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.time-summary-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.time-summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  padding: 2px 0;
+}
+
+.time-summary-item.flag-warning .time-summary-value {
+  color: #e67e22;
+}
+
+.time-summary-label {
+  color: #888;
+}
+
+.time-summary-value {
+  font-weight: 600;
+}
+
+.time-summary-value.clickable {
+  color: #3498db;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.time-summary-value.clickable:hover {
+  color: #2980b9;
 }
 
 /* ===== Scrollbar ===== */

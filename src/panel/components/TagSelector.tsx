@@ -1,6 +1,6 @@
 import React from 'react';
 import type { MoveTag } from '@/shared/types';
-import { MOVE_TAGS } from '@/shared/types';
+import { MOVE_TAGS, AUTO_TAGS } from '@/shared/types';
 
 interface TagSelectorProps {
   selected: MoveTag[];
@@ -18,6 +18,7 @@ const TAG_COLORS: Record<MoveTag, string> = {
   time_pressure: '#e74c3c',
   opening_prep: '#3498db',
   protocol_skip: '#e67e22',
+  possible_protocol_skip: '#e67e22',
   forced: '#95a5a6',
 };
 
@@ -31,8 +32,11 @@ const TAG_LABELS: Record<MoveTag, string> = {
   time_pressure: 'Time',
   opening_prep: 'Prep',
   protocol_skip: 'Skip',
+  possible_protocol_skip: 'Auto-Skip',
   forced: 'Forced',
 };
+
+const MANUAL_TAGS = MOVE_TAGS.filter(t => !AUTO_TAGS.includes(t));
 
 export const TagSelector: React.FC<TagSelectorProps> = ({ selected, onChange, disabled }) => {
   const toggle = (tag: MoveTag) => {
@@ -46,7 +50,7 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ selected, onChange, di
 
   return (
     <div className="tag-selector">
-      {MOVE_TAGS.map(tag => (
+      {MANUAL_TAGS.map(tag => (
         <button
           key={tag}
           className={`tag-chip ${selected.includes(tag) ? 'active' : ''}`}
@@ -60,6 +64,18 @@ export const TagSelector: React.FC<TagSelectorProps> = ({ selected, onChange, di
         >
           {TAG_LABELS[tag]}
         </button>
+      ))}
+      {AUTO_TAGS.filter(t => selected.includes(t)).map(tag => (
+        <span
+          key={tag}
+          className="tag-chip active auto-tag"
+          style={{
+            '--tag-color': TAG_COLORS[tag],
+          } as React.CSSProperties}
+          title={`${tag} (auto-applied)`}
+        >
+          {TAG_LABELS[tag]}
+        </span>
       ))}
     </div>
   );
