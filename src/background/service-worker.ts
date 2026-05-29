@@ -113,6 +113,12 @@ async function handleMessage(message: ExtensionMessage): Promise<void> {
       break;
     }
 
+    case 'REQUEST_ALL_GAMES': {
+      const allGames = await getAllGames();
+      broadcastToPanel({ type: 'ALL_GAMES_SYNC', payload: allGames });
+      break;
+    }
+
     case 'CONTENT_SCRIPT_READY': {
       // Content script is ready, nothing to do yet
       break;

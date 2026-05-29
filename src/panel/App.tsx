@@ -6,9 +6,10 @@ import { PostGameReview } from './components/PostGameReview';
 import { ExportControls } from './components/ExportControls';
 import { TimeAnalytics } from './components/TimeAnalytics';
 import { PatternDashboard } from './components/PatternDashboard';
+import { OpeningTracker } from './components/OpeningTracker';
 import './styles.css';
 
-type PanelTab = 'annotate' | 'time' | 'patterns';
+type PanelTab = 'annotate' | 'time' | 'patterns' | 'openings';
 
 export const App: React.FC = () => {
   const {
@@ -155,6 +156,13 @@ export const App: React.FC = () => {
         >
           Patterns
         </button>
+        <button
+          className={`panel-tab ${activeTab === 'openings' ? 'active' : ''}`}
+          onClick={() => setActiveTab('openings')}
+          type="button"
+        >
+          Openings
+        </button>
       </div>
 
       <MoveList
@@ -179,6 +187,8 @@ export const App: React.FC = () => {
       {activeTab === 'time' && <TimeAnalytics />}
 
       {activeTab === 'patterns' && <PatternDashboard />}
+
+      {activeTab === 'openings' && <OpeningTracker />}
     </div>
   );
 };
