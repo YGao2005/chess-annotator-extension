@@ -1,4 +1,4 @@
-import type { Certainty, Checklist, GameRecord, GameResult, MoveTag, ResultReason } from './types';
+import type { AutoTagState, Certainty, Checklist, GameRecord, GameResult, MoveTag, ResultReason } from './types';
 
 // ===== Raw data from adapter =====
 
@@ -42,6 +42,7 @@ export interface MoveAnnotation {
   checklist: Checklist;
   noteDuring: string;
   notePost: string;
+  autoTags?: AutoTagState[];
   engineEval?: number;
   evalType?: 'cp' | 'mate';
   cpl?: number;
