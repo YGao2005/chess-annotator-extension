@@ -9,17 +9,17 @@ interface TagSelectorProps {
 }
 
 const TAG_COLORS: Record<MoveTag, string> = {
-  blunder: '#e74c3c',
-  mistake: '#e67e22',
-  inaccuracy: '#f1c40f',
-  good: '#2ecc71',
-  excellent: '#27ae60',
-  no_plan: '#9b59b6',
-  time_pressure: '#e74c3c',
-  opening_prep: '#3498db',
-  protocol_skip: '#e67e22',
-  possible_protocol_skip: '#e67e22',
-  forced: '#95a5a6',
+  blunder: '#ef4444',
+  mistake: '#f97316',
+  inaccuracy: '#eab308',
+  good: '#22c55e',
+  excellent: '#16a34a',
+  no_plan: '#a855f7',
+  time_pressure: '#ef4444',
+  opening_prep: '#3b82f6',
+  protocol_skip: '#f97316',
+  possible_protocol_skip: '#f97316',
+  forced: '#94a3b8',
 };
 
 const TAG_LABELS: Record<MoveTag, string> = {
