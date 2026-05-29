@@ -61,10 +61,18 @@ export class GameStateManager {
       opponentClockRemainingMs,
     };
 
+    // Auto-tag with confirm/dismiss support
+    const autoTags: import('@/shared/types').AutoTagState[] = [];
+
     // Auto-tag: possible_protocol_skip for moves under 5s (skip first move)
     if (moveIndex > 0 && moveRecord.timeSpentMs > 0 && moveRecord.timeSpentMs < 5000) {
       if (!moveRecord.tags.includes('possible_protocol_skip')) {
         moveRecord.tags.push('possible_protocol_skip');
+        autoTags.push({
+          tag: 'possible_protocol_skip',
+          status: 'pending',
+          reason: `Move played in ${(moveRecord.timeSpentMs / 1000).toFixed(1)}s (< 5s threshold)`,
+        });
       }
     }
 
@@ -72,7 +80,16 @@ export class GameStateManager {
     if (clockRemainingMs > 0 && clockRemainingMs < 30000) {
       if (!moveRecord.tags.includes('time_pressure')) {
         moveRecord.tags.push('time_pressure');
+        autoTags.push({
+          tag: 'time_pressure',
+          status: 'pending',
+          reason: `Clock at ${(clockRemainingMs / 1000).toFixed(0)}s (< 30s threshold)`,
+        });
       }
+    }
+
+    if (autoTags.length > 0) {
+      moveRecord.autoTags = autoTags;
     }
 
     this.currentGame.moves.push(moveRecord);
@@ -108,6 +125,7 @@ export class GameStateManager {
     if (annotation.checklist !== undefined) move.checklist = annotation.checklist;
     if (annotation.noteDuring !== undefined) move.noteDuring = annotation.noteDuring;
     if (annotation.notePost !== undefined) move.notePost = annotation.notePost;
+    if (annotation.autoTags !== undefined) move.autoTags = annotation.autoTags;
     if (annotation.engineEval !== undefined) move.engineEval = annotation.engineEval;
     if (annotation.evalType !== undefined) move.evalType = annotation.evalType;
     if (annotation.cpl !== undefined) move.cpl = annotation.cpl;

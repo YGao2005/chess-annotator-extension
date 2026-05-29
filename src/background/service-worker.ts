@@ -1,5 +1,5 @@
 import { GameStateManager } from './game-state';
-import { saveGame, getGame, gameExists } from '@/storage/db';
+import { saveGame, getGame, getAllGames, gameExists } from '@/storage/db';
 import type { ExtensionMessage } from '@/shared/protocol';
 
 const gameState = new GameStateManager();
@@ -113,8 +113,25 @@ async function handleMessage(message: ExtensionMessage): Promise<void> {
       break;
     }
 
+    case 'REQUEST_ALL_GAMES': {
+      const allGames = await getAllGames();
+      broadcastToPanel({ type: 'ALL_GAMES_SYNC', payload: allGames });
+      break;
+    }
+
     case 'CONTENT_SCRIPT_READY': {
-      // Content script is ready, nothing to do yet
+      break;
+    }
+
+    case 'REQUEST_ALL_GAMES': {
+      const allGames = await getAllGames();
+      broadcastToPanel({ type: 'ALL_GAMES_SYNC', payload: allGames });
+      break;
+    }
+
+    case 'REQUEST_ALL_GAMES': {
+      const allGames = await getAllGames();
+      broadcastToPanel({ type: 'ALL_GAMES_SYNC', payload: allGames });
       break;
     }
 

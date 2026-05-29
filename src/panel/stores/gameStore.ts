@@ -1,15 +1,18 @@
 import { create } from 'zustand';
-import type { GameRecord, MoveTag, Certainty, Checklist } from '@/shared/types';
+import type { AutoTagState, GameRecord, MoveTag, Certainty, Checklist } from '@/shared/types';
 import type { ExtensionMessage, MoveAnnotation } from '@/shared/protocol';
 
 interface GameStore {
   game: GameRecord | null;
+  allGames: GameRecord[];
   activeMoveIndex: number;
   isReviewMode: boolean;
   isConnected: boolean;
   port: chrome.runtime.Port | null;
 
   setGame: (game: GameRecord) => void;
+  setAllGames: (games: GameRecord[]) => void;
+  requestAllGames: () => void;
   setActiveMoveIndex: (index: number) => void;
   setReviewMode: (review: boolean) => void;
   connect: () => void;
@@ -23,10 +26,12 @@ interface GameStore {
   setMoveChecklist: (moveIndex: number, checklist: Checklist) => void;
   setMoveNote: (moveIndex: number, note: string) => void;
   setMovePostNote: (moveIndex: number, note: string) => void;
+  setMoveAutoTags: (moveIndex: number, autoTags: AutoTagState[]) => void;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
   game: null,
+  allGames: [],
   activeMoveIndex: -1,
   isReviewMode: false,
   isConnected: false,
@@ -40,6 +45,14 @@ export const useGameStore = create<GameStore>((set, get) => ({
     }
   },
 
+  setAllGames: (games) => set({ allGames: games }),
+
+  requestAllGames: () => {
+    const { port } = get();
+    if (!port) return;
+    port.postMessage({ type: 'REQUEST_ALL_GAMES', payload: null });
+  },
+
   setActiveMoveIndex: (index) => set({ activeMoveIndex: index }),
 
   setReviewMode: (review) => set({ isReviewMode: review }),
@@ -50,6 +63,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
     port.onMessage.addListener((message: ExtensionMessage) => {
       if (message.type === 'STATE_SYNC') {
         get().setGame(message.payload);
+      }
+      if (message.type === 'ALL_GAMES_SYNC') {
+        get().setAllGames(message.payload);
       }
     });
 
@@ -86,6 +102,7 @@ export const useGameStore = create<GameStore>((set, get) => ({
     if (annotation.checklist !== undefined) move.checklist = annotation.checklist;
     if (annotation.noteDuring !== undefined) move.noteDuring = annotation.noteDuring;
     if (annotation.notePost !== undefined) move.notePost = annotation.notePost;
+    if (annotation.autoTags !== undefined) move.autoTags = annotation.autoTags;
     updatedGame.moves[moveIndex] = move;
     set({ game: updatedGame });
   },
@@ -125,5 +142,9 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   setMovePostNote: (moveIndex, note) => {
     get().updateMoveAnnotation(moveIndex, { notePost: note });
+  },
+
+  setMoveAutoTags: (moveIndex, autoTags) => {
+    get().updateMoveAnnotation(moveIndex, { autoTags });
   },
 }));

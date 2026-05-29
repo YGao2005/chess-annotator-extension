@@ -3,7 +3,10 @@ import { useGameStore } from '../stores/gameStore';
 import { TagSelector } from './TagSelector';
 import { CertaintyRating } from './CertaintyRating';
 import { Checklist } from './Checklist';
+import { AutoTagBanner } from './AutoTagBanner';
+import { AnnotationSuggestions } from './AnnotationSuggestions';
 import { ANNOTATION_DEBOUNCE_MS } from '@/shared/constants';
+import type { AutoTagState, MoveTag } from '@/shared/types';
 
 export const AnnotationPanel: React.FC = () => {
   const {
@@ -15,6 +18,7 @@ export const AnnotationPanel: React.FC = () => {
     setMoveChecklist,
     setMoveNote,
     setMovePostNote,
+    setMoveAutoTags,
   } = useGameStore();
 
   const [checklistExpanded, setChecklistExpanded] = useState(true);
@@ -93,12 +97,52 @@ export const AnnotationPanel: React.FC = () => {
         </button>
       </div>
 
+      {move.autoTags && move.autoTags.length > 0 && (
+        <div className="annotation-section">
+          <AutoTagBanner
+            autoTags={move.autoTags}
+            onConfirm={(tag: MoveTag) => {
+              const updated: AutoTagState[] = move.autoTags!.map(at =>
+                at.tag === tag ? { ...at, status: 'confirmed' as const } : at
+              );
+              setMoveAutoTags(activeMoveIndex, updated);
+            }}
+            onDismiss={(tag: MoveTag) => {
+              const updated: AutoTagState[] = move.autoTags!.map(at =>
+                at.tag === tag ? { ...at, status: 'dismissed' as const } : at
+              );
+              setMoveAutoTags(activeMoveIndex, updated);
+              // Remove the dismissed tag from the move's tags
+              const newTags = move.tags.filter(t => t !== tag);
+              setMoveTags(activeMoveIndex, newTags);
+            }}
+            onConfirmAll={() => {
+              const updated: AutoTagState[] = move.autoTags!.map(at =>
+                at.status === 'pending' ? { ...at, status: 'confirmed' as const } : at
+              );
+              setMoveAutoTags(activeMoveIndex, updated);
+            }}
+            onDismissAll={() => {
+              const pendingTags = move.autoTags!.filter(at => at.status === 'pending').map(at => at.tag);
+              const updated: AutoTagState[] = move.autoTags!.map(at =>
+                at.status === 'pending' ? { ...at, status: 'dismissed' as const } : at
+              );
+              setMoveAutoTags(activeMoveIndex, updated);
+              const newTags = move.tags.filter(t => !pendingTags.includes(t));
+              setMoveTags(activeMoveIndex, newTags);
+            }}
+          />
+        </div>
+      )}
+
       <div className="annotation-section">
         <TagSelector
           selected={move.tags}
           onChange={(tags) => setMoveTags(activeMoveIndex, tags)}
         />
       </div>
+
+      <AnnotationSuggestions />
 
       <div className="annotation-section">
         <CertaintyRating
@@ -134,7 +178,7 @@ export const AnnotationPanel: React.FC = () => {
         </div>
       )}
 
-      {isReviewMode && (
+      {isReviewMode && move && (
         <div className="annotation-section engine-section">
           <label className="note-label">Engine Data (manual entry):</label>
           <div className="engine-inputs">

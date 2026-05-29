@@ -66,6 +66,14 @@ export type EngineClassification =
 
 // ===== Move Record =====
 
+export type AutoTagStatus = 'pending' | 'confirmed' | 'dismissed';
+
+export interface AutoTagState {
+  tag: MoveTag;
+  status: AutoTagStatus;
+  reason: string;
+}
+
 export interface MoveRecord {
   number: number;
   color: 'w' | 'b';
@@ -83,6 +91,8 @@ export interface MoveRecord {
   noteDuring: string;
 
   notePost: string;
+
+  autoTags?: AutoTagState[];
 
   engineEval?: number;
   evalType?: 'cp' | 'mate';
