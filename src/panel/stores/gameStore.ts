@@ -9,7 +9,6 @@ interface GameStore {
   isReviewMode: boolean;
   isConnected: boolean;
   port: chrome.runtime.Port | null;
-  allGames: GameRecord[];
 
   setGame: (game: GameRecord) => void;
   setAllGames: (games: GameRecord[]) => void;
@@ -28,9 +27,6 @@ interface GameStore {
   setMoveNote: (moveIndex: number, note: string) => void;
   setMovePostNote: (moveIndex: number, note: string) => void;
   setMoveAutoTags: (moveIndex: number, autoTags: AutoTagState[]) => void;
-
-  setAllGames: (games: GameRecord[]) => void;
-  requestAllGames: () => void;
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
@@ -40,7 +36,6 @@ export const useGameStore = create<GameStore>((set, get) => ({
   isReviewMode: false,
   isConnected: false,
   port: null,
-  allGames: [],
 
   setGame: (game) => {
     set({ game });
@@ -151,13 +146,5 @@ export const useGameStore = create<GameStore>((set, get) => ({
 
   setMoveAutoTags: (moveIndex, autoTags) => {
     get().updateMoveAnnotation(moveIndex, { autoTags });
-  },
-
-  setAllGames: (games) => set({ allGames: games }),
-
-  requestAllGames: () => {
-    const { port } = get();
-    if (!port) return;
-    port.postMessage({ type: 'REQUEST_ALL_GAMES', payload: null });
   },
 }));
